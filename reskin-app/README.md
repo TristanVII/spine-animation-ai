@@ -69,7 +69,6 @@ scripts/
 - Node 18+
 - A Gemini API key (`GEMINI_API_KEY`)
 - A SAM-3 segmentation server reachable over HTTP (`SAM_SERVER_URL`)
-- Optional: an Anthropic API key for the chat sidebar (`ANTHROPIC_API_KEY`)
 
 ### Env vars
 
@@ -78,7 +77,6 @@ Copy `app/.env.example` to `app/.env` and fill in:
 ```
 GEMINI_API_KEY=...
 SAM_SERVER_URL=http://your-sam-host:30231
-ANTHROPIC_API_KEY=...
 ```
 
 ### Install + run
@@ -127,6 +125,6 @@ clear hint and the other tools still work.
 ## Design system
 
 This project uses the Genie Studio design system at
-`design-system/genie-studio/`. Read `CLAUDE.md` and the design system's
+`design-system/genie-studio/`. Read `AGENTS.md` and the design system's
 `README.md` before touching any UI — never invent colors, type, spacing, or
 components not grounded in the system.

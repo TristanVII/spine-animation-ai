@@ -1,6 +1,6 @@
-# Claude Prompting Guide for Spine Animation AI
+# Codex Prompting Guide for Spine Animation AI
 
-Getting great results from Claude depends on giving it the right context. This guide shows what works.
+Getting great results from Codex depends on giving it the right context. This guide shows what works.
 
 ---
 
@@ -8,7 +8,7 @@ Getting great results from Claude depends on giving it the right context. This g
 
 **Be specific about assets, intent, and constraints.**
 
-Claude can't see your files unless you attach them. It doesn't know your target engine
+Give Codex the workspace paths, or attach files outside its accessible workspace. It doesn't know your target engine
 unless you say. The more context, the better the output.
 
 ---
@@ -97,7 +97,7 @@ Output a corrected skeleton.json and updated adjustments.json.
 
 ---
 
-## What Claude Needs to Know
+## What Codex Needs to Know
 
 | Information | Why it matters | Example |
 |-------------|---------------|---------|
@@ -106,7 +106,7 @@ Output a corrected skeleton.json and updated adjustments.json.
 | Canvas/viewport size | Sets skeleton bounds | "600x900 pixel canvas" |
 | Animation style | Affects easing and timing | "snappy and energetic", "slow and floaty" |
 | Reference image | Enables auto-positioning | [attach assembled_character.png] |
-| Current issues | Tells Claude what to fix | "the arm is too high by ~50px" |
+| Current issues | Tells Codex what to fix | "the arm is too high by ~50px" |
 
 ---
 
@@ -118,7 +118,7 @@ Output a corrected skeleton.json and updated adjustments.json.
 Can you fix my skeleton? The arm is wrong.
 ```
 
-Claude can't see `skeleton.json` unless you attach it.
+Give Codex the path to `skeleton.json`, or attach it if it is outside the workspace.
 
 ---
 
@@ -181,6 +181,6 @@ look like in practice:
 2. Click a body part to select it
 3. Drag to reposition, or use the numeric inputs for precision
 4. Click "Export Layout JSON" when satisfied
-5. Paste that JSON to Claude: *"Apply these offsets to my skeleton.json"*
+5. Paste that JSON to Codex: *"Apply these offsets to my skeleton.json"*
 
-This gives you a visual, tactile way to figure out the right numbers before asking Claude to apply them.
+This gives you a visual, tactile way to figure out the right numbers before asking Codex to apply them.

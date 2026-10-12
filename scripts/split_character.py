@@ -10,7 +10,7 @@ Usage:
         [--bg-threshold 240]
 
 Requires:
-    pip install google-generativeai opencv-python Pillow numpy
+    pip install google-genai opencv-python Pillow numpy
     Environment variable GEMINI_API_KEY must be set.
 """
 

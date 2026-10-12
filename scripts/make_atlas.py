@@ -19,7 +19,7 @@ from pathlib import Path
 try:
     from PIL import Image
 except ImportError:
-    print("ERROR: Pillow required. Install: pip install Pillow --break-system-packages")
+    print("ERROR: Pillow required. Install: python -m pip install Pillow in your task virtual environment")
     sys.exit(1)
 
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spine Animation"
+  short_description: "Rig, animate, and preview Spine 4.2 characters"
+  default_prompt: "Use $spine-animation to animate my character assets and create a Spine runtime preview."

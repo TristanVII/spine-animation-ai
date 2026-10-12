@@ -5,8 +5,8 @@ This guide walks you through your first animation from scratch.
 ## Prerequisites
 
 - Python 3.9+
-- `pip install opencv-python Pillow numpy`
-- Claude (via OpenClaw, Claude.ai, or API) with the `SKILL.md` loaded
+- A task virtual environment with `requirements.txt` installed
+- Codex desktop, CLI, or IDE with the `spine-animation` skill discovered (see README)
 
 ---
 
@@ -45,10 +45,10 @@ Check `debug/comparison.png` — it shows the reference vs your auto-assembled c
 If parts look misaligned, adjust `--ratio` (try 0.75 for more aggressive matching)
 or manually edit `layout.json` offsets.
 
-**Step 3: Ask Claude**
+**Step 3: Ask Codex**
 
 ```
-Here's my layout.json [attach]. The reference image is reference.png [attach].
+Here's my layout.json [workspace path or attachment]. The reference image is reference.png [workspace path or attachment].
 Build a Spine skeleton with idle and walk animations.
 Output skeleton.json.
 ```
@@ -57,15 +57,15 @@ Output skeleton.json.
 
 ## Option B: I have an atlas + spritesheet
 
-**Step 1: Point Claude at your files**
+**Step 1: Point Codex at your files**
 
 ```
-I have skeleton.atlas [attach] and skeleton.png [attach].
+I have skeleton.atlas [workspace path or attachment] and skeleton.png [workspace path or attachment].
 Build a Spine skeleton with idle animation.
 Use the region names from the atlas as bone names.
 ```
 
-Claude will parse the atlas, set up the skeleton, and output `skeleton.json`.
+Codex will parse the atlas, set up the skeleton, and output `skeleton.json`.
 
 **Step 2: Generate preview**
 
@@ -84,12 +84,12 @@ Open `preview.html` in Chrome/Firefox.
 ## Option C: I have an existing Spine JSON and want to fix it
 
 ```
-Here's my skeleton.json [attach]. The right arm is positioned too high.
+Here's my skeleton.json [workspace path or attachment]. The right arm is positioned too high.
 Adjust it down by about 80 units and give me the corrected JSON.
 Also add a wave animation.
 ```
 
-Claude will output a corrected JSON and an `adjustments.json` showing exactly what changed.
+Codex will output a corrected JSON and an `adjustments.json` showing exactly what changed.
 
 ---
 
@@ -114,7 +114,7 @@ Claude will output a corrected JSON and an `adjustments.json` showing exactly wh
 
 **The composite looks mostly right but one part is wrong**
 - Manually edit `layout.json` — find the part's `x`/`y` offset and adjust
-- Or tell Claude: "The left arm is off by about 30px to the right"
+- Or tell Codex: "The left arm is off by about 30px to the right"
 
 **preview.html shows a white screen**
 - Make sure the atlas PNG path in the atlas file matches the actual filename

@@ -1,11 +1,10 @@
 # 🎭 Spine Animation AI
 
-> An AI-powered Claude skill for creating, rigging, and refining Spine 2D skeletal animations — from raw assets to interactive previews.
+> A Codex-native fork of [GenielabsOpenSource/spine-animation-ai](https://github.com/GenielabsOpenSource/spine-animation-ai), providing an AI-powered Codex skill for creating, rigging, and refining Spine 2D skeletal animations — from raw assets to interactive previews.
 
 [![License: PolyForm NC](https://img.shields.io/badge/License-PolyForm%20NC%201.0-blue.svg)](LICENSE)
 [![Spine Version](https://img.shields.io/badge/Spine-4.2-blue.svg)](http://esotericsoftware.com)
-[![Claude Skill](https://img.shields.io/badge/Claude-Skill-orange.svg)](SKILL.md)
-[![OpenClaw](https://img.shields.io/badge/OpenClaw-Compatible-green.svg)](https://openclaw.ai)
+[![Codex Skill](https://img.shields.io/badge/Codex-Skill-blue.svg)](.agents/skills/spine-animation/SKILL.md)
 
 ---
 
@@ -44,7 +43,7 @@
 
 **[Genielabs](https://genielabs.tech)** is at the forefront of AI-powered 2D animation — using machine learning to automate character rigging, motion generation, and asset positioning for game production.
 
-This repository is a direct product of that research: an open-source skill that brings industrial-grade animation automation into Claude.
+This repository is a direct product of that research: an open-source skill that brings industrial-grade animation automation into Codex.
 
 ### 📬 Want to collaborate, license, or learn more?
 
@@ -58,7 +57,7 @@ This repository is a direct product of that research: an open-source skill that 
 
 ## What Is This?
 
-**Spine Animation AI** is a [Claude agent skill](SKILL.md) that lets AI handle the tedious parts of Spine 2D animation production:
+**Spine Animation AI** is a [Codex agent skill](SKILL.md) that lets AI handle the tedious parts of Spine 2D animation production:
 
 - **Auto-position** body parts from reference images using SIFT + RANSAC
 - **Build skeleton JSON** with proper bone hierarchy and draw order
@@ -66,46 +65,57 @@ This repository is a direct product of that research: an open-source skill that 
 - **Produce interactive HTML5 previews** using the official Spine Web Player
 - **Correct and refine** existing skeletons with AI-assisted offset adjustments
 
-Think of it as a Spine rigging co-pilot. You provide the art assets; Claude does the math.
+Think of it as a Spine rigging co-pilot. You provide the art assets; Codex does the math.
 
 ---
 
 ## Quick Start
 
-### Option A: Claude Projects (Recommended)
-
-The easiest way — works with any Claude account, no extra software needed.
-
-1. Go to [claude.ai](https://claude.ai) → create a new **Project**
-2. Open **Project Knowledge** → **Add content**
-3. Copy the full contents of [`SKILL.md`](SKILL.md) and paste it in
-4. Save — Claude now has the full skill baked in, **including all scripts embedded inline**
-5. Upload your character assets and describe what you want:
-
-```
-"I have separated body part PNGs for my character.
- Create idle and walk animations."
-```
-
-Claude will write the scripts to disk, run the pipeline, and deliver `skeleton.json` + `preview.html`.
-
-> **Why it works:** `SKILL.md` is auto-generated with all 4 Python scripts embedded inside it — Claude extracts and runs them without needing to clone the repo.
-
----
-
-### Option B: Claude Custom Skill (`/mnt/skills/` environments)
-
-For Claude environments that support mounted skill directories:
+### Option A: Open this repository in Codex
 
 ```bash
-git clone https://github.com/GenielabsOpenSource/spine-animation-ai.git /mnt/skills/user/spine-animation
+git clone https://github.com/TristanVII/spine-animation-ai.git
+cd spine-animation-ai
 ```
 
-Claude will automatically discover and load the skill on next session start.
+Open the clone as a Codex project, or start `codex` in that directory.
+Codex discovers `.agents/skills/spine-animation/SKILL.md` and reads `AGENTS.md`.
+Start a new conversation after adding the skill. Example:
+
+```text
+Use $spine-animation with the PNGs in ./my-character and reference.png.
+Create idle and walk animations. Save outputs in ./output/my-character.
+```
+
+The skill runs bundled scripts directly. No Claude Code, inline script
+extraction, or model API key is required for local rigging and packing.
+
+### Option B: Install the skill for other Codex projects
+
+```bash
+python3 install_skill.py
+```
+
+This copies the self-contained bundle to `~/.agents/skills/spine-animation`.
+It refuses to overwrite an existing skill. Use `--destination /path/to/skill`
+for a different location, then start a new Codex conversation.
+
+Set up a task-local environment for the Python tools:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+```
+
+Full-image splitting is optional and still uses Gemini. That operation requires
+`google-genai` and `GEMINI_API_KEY`. Reskin Studio also retains its existing
+image-generation providers; changing the agent host does not replace them.
+
+See [Codex skills documentation](https://learn.chatgpt.com/docs/build-skills).
 
 ---
 
-### Option C: Manual Pipeline (no Claude needed)
+### Option C: Manual Pipeline
 
 **Step 0: Split a Full Character Into Parts (New!)**
 
@@ -115,10 +125,10 @@ individual transparent PNGs via OpenCV connected-components analysis.
 
 Prerequisites:
 - `GEMINI_API_KEY` environment variable — get a free key at https://aistudio.google.com/app/apikey
-- `pip install google-generativeai`
+- `.venv/bin/python -m pip install google-genai`
 
 ```bash
-GEMINI_API_KEY=your_key python3 scripts/split_character.py character.png \
+.venv/bin/python scripts/split_character.py character.png \
   --output-dir parts/
 ```
 
@@ -167,7 +177,7 @@ Open `preview.html` in any browser — no server needed.
 
 ## AI Adjustment Format
 
-When Claude analyzes a skeleton and recommends corrections, it outputs adjustments in this format:
+When Codex analyzes a skeleton and recommends corrections, it outputs adjustments in this format:
 
 ```json
 {
@@ -224,16 +234,19 @@ Open [`demo/sombrero_editor.html`](demo/sombrero_editor.html) to interactively a
 
 ```
 spine-animation-ai/
+├── .agents/skills/spine-animation/ ← Discoverable, self-contained Codex skill
+├── AGENTS.md                       ← Codex project instructions
+├── install_skill.py                ← Install for use in other projects
 ├── SKILL.md                        ← Auto-generated (don't edit directly)
 ├── SKILL.template.md               ← Human-editable source (edit this)
-├── build_skill.py                  ← Builds SKILL.md from template + scripts
+├── build_skill.py                  ← Builds the Codex skill bundle
 ├── scripts/
 │   ├── position_parts.py           ← SIFT+RANSAC auto-positioning
 │   ├── build_spine_json.py         ← Spine JSON builder
 │   ├── make_atlas.py               ← Texture atlas packer
 │   └── generate_spine_player.py    ← HTML preview generator
 ├── .github/workflows/
-│   └── build-skill.yml             ← Auto-rebuilds SKILL.md on push
+│   └── build-skill.yml             ← Validates bundle and installation on push
 ├── references/
 │   └── spine-json-spec.md          ← Spine format reference
 ├── examples/
@@ -248,7 +261,7 @@ spine-animation-ai/
 └── docs/
     ├── getting-started.md
     ├── adjustment-format.md
-    └── claude-prompting-guide.md
+    └── codex-prompting-guide.md
 ```
 
 ---
@@ -294,12 +307,12 @@ numpy >= 1.24
 Install dependencies:
 
 ```bash
-pip install opencv-python Pillow numpy
+.venv/bin/python -m pip install -r requirements.txt
 ```
 
 ---
 
-## Claude Prompting Tips
+## Codex Prompting Tips
 
 The best prompts for this skill are specific about assets and intent:
 
@@ -321,7 +334,7 @@ The best prompts for this skill are specific about assets and intent:
 "Animate this character"
 ```
 
-See [docs/claude-prompting-guide.md](docs/claude-prompting-guide.md) for more examples.
+See [docs/codex-prompting-guide.md](docs/codex-prompting-guide.md) for more examples.
 
 ---
 
@@ -341,24 +354,20 @@ All presets use **bezier easing** (`[0.25, 0, 0.75, 1]`) following the
 
 ---
 
-## How SKILL.md Stays in Sync
+## Maintaining the Codex skill
 
-`SKILL.md` is **auto-generated** — don't edit it directly. Instead:
+Edit `SKILL.template.md`, the files in `scripts/`, or the supporting references.
+Then run:
 
-1. Edit `SKILL.template.md` (the prose and instructions)
-2. Edit scripts in `scripts/` (the actual code)
-3. Push to `main` — GitHub Actions runs `build_skill.py` which:
-   - Reads `SKILL.template.md`
-   - Finds all `<!-- EMBED:scripts/filename.py -->` markers
-   - Injects the actual script contents into collapsible `<details>` blocks
-   - Commits the updated `SKILL.md` automatically
-
-This means `SKILL.md` is always a **self-contained document** — when someone pastes it into Claude Projects, Claude has the actual script code right there, no cloning needed.
-
-To build locally:
 ```bash
-python build_skill.py
+python3 build_skill.py
+python3 build_skill.py --check
+python3 -m unittest discover -s tests
 ```
+
+The builder updates root `SKILL.md` and the self-contained Codex bundle in
+`.agents/skills/spine-animation/`. It copies tools and references as files,
+without embedding source code in the instructions. CI checks for stale files.
 
 ---
 
@@ -386,8 +395,7 @@ Ideas for contributions:
 Built with:
 - [Spine by Esoteric Software](http://esotericsoftware.com) — the industry-standard 2D animation tool
 - [OpenCV](https://opencv.org) — SIFT feature detection and RANSAC
-- [Claude AI](https://anthropic.com/claude) — the brain
-- [OpenClaw](https://openclaw.ai) — the agent runtime
+- [Codex](https://developers.openai.com/codex) — agent host for this fork
 
 ---
 

@@ -19,7 +19,7 @@ Before opening a large PR, open an issue first to discuss. Some ideas we'd love 
 - **Better occlusion detection** — for heavily layered / occluded parts
 - **Asset pipeline integrations** — Blender exporter, Aseprite → atlas, LibreSprite
 - **Runtime examples** — Unity C#, Godot GDScript, Phaser 3, PixiJS
-- **Improved SKILL.md** — better Claude prompting patterns, edge cases
+- **Improved SKILL.md** — better Codex prompting patterns, edge cases
 
 ### 📖 Documentation
 Documentation PRs are always welcome — fix typos, clarify instructions, add examples.
@@ -33,10 +33,13 @@ git clone https://github.com/your-username/spine-animation-ai
 cd spine-animation-ai
 
 # Install Python dependencies
-pip install opencv-python Pillow numpy
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 
 # Run the example
-python3 scripts/position_parts.py --help
+.venv/bin/python scripts/position_parts.py --help
+python3 build_skill.py --check
+python3 -m unittest discover -s tests
 ```
 
 ---
@@ -69,7 +72,7 @@ Include a note in your PR about what you tested.
 - [ ] Script runs without errors on the sombrero example
 - [ ] `--help` flag works and explains all options
 - [ ] README updated if adding a new script or major feature
-- [ ] SKILL.md updated if Claude's behavior should change
+- [ ] Skill template updated and bundle rebuilt if Codex behavior should change
 - [ ] No large binary files added (use Git LFS for PNGs > 1MB)
 
 ---
